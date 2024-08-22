@@ -1,10 +1,11 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Button({ label, gradient, fontFamily }) {
+export default function Button({ label, gradient, fontFamily, onPress }) {
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity
+        onPress={onPress}
         style={[styles.button, !gradient && styles.buttonBorder]}
       >
         {gradient ? (
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 60,
     width: "100%",
-    height: 60,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",

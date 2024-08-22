@@ -6,16 +6,12 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import {
-  PlayfairDisplay_700Bold,
-  useFonts,
-} from "@expo-google-fonts/playfair-display";
+import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState } from "react";
 
-export default function Email({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function CreateProfile({ navigation }) {
+  const [username, setUsername] = useState("");
 
   return (
     <KeyboardAvoidingView
@@ -28,32 +24,19 @@ export default function Email({ navigation }) {
           <Text
             style={[styles.title, { fontFamily: "PlayfairDisplay_700Bold" }]}
           >
-            What's your email?
+            Create your profile
           </Text>
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
             style={styles.input}
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-            placeholder="Email"
-            keyboardType="email-address"
-          />
-          <TextInput
-            placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={styles.input}
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            placeholder="Password"
-            secureTextEntry={true}
-            textContentType="newPassword"
+            onChangeText={(text) => setUsername(text)}
+            value={username}
+            placeholder="Username"
+            // keyboardType="email-address"
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button
-            label="Next"
-            gradient={true}
-            onPress={() => navigation.navigate("UserInfo")}
-          />
+          <Button label="Next" gradient={true} />
         </View>
       </View>
     </KeyboardAvoidingView>

@@ -14,7 +14,7 @@ import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function GetStarted() {
+export default function GetStarted({ navigation }) {
   const [fontsLoaded] = useFonts({
     PlayfairDisplay_700Bold,
     Poppins_600SemiBold,
@@ -47,6 +47,7 @@ export default function GetStarted() {
             label="Create an account"
             gradient={true}
             style={{ fontFamily: "Poppins_600SemiBold" }}
+            onPress={() => navigation.navigate("Email")}
           />
           <Button
             label="Sign in"
@@ -55,7 +56,6 @@ export default function GetStarted() {
           />
         </View>
       </View>
-      <StatusBar style="auto" />
     </View>
   );
 }
@@ -66,18 +66,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   header: {
-    marginTop: "95%",
+    flex: 1,
+    top: "45%",
   },
   logo: {
     color: "#FFFFFF",
     fontStyle: "normal",
     textAlign: "center",
-    fontSize: "40",
+    fontSize: "38",
   },
   buttonContainer: {
-    flex: 1,
     width: "100%",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     marginTop: "60%",
     paddingTop: 0,

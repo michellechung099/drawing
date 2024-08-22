@@ -6,16 +6,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import {
-  PlayfairDisplay_700Bold,
-  useFonts,
-} from "@expo-google-fonts/playfair-display";
+import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState } from "react";
 
-export default function Email({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function UserInfo({ navigation }) {
+  const [fullName, setFullName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
 
   return (
     <KeyboardAvoidingView
@@ -28,31 +25,29 @@ export default function Email({ navigation }) {
           <Text
             style={[styles.title, { fontFamily: "PlayfairDisplay_700Bold" }]}
           >
-            What's your email?
+            Some basic information
           </Text>
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
             style={styles.input}
-            onChangeText={(text) => setEmail(text)}
-            value={email}
-            placeholder="Email"
-            keyboardType="email-address"
+            onChangeText={(text) => setFullName(text)}
+            value={fullName}
+            placeholder="Full name"
+            // keyboardType="email-address"
           />
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
             style={styles.input}
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            placeholder="Password"
-            secureTextEntry={true}
-            textContentType="newPassword"
+            onChangeText={(text) => setBirthDate(text)}
+            value={birthDate}
+            placeholder="Birth date"
           />
         </View>
         <View style={styles.buttonContainer}>
           <Button
             label="Next"
             gradient={true}
-            onPress={() => navigation.navigate("UserInfo")}
+            onPress={() => navigation.navigate("CreateProfile")}
           />
         </View>
       </View>
