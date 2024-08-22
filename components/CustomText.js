@@ -1,29 +1,24 @@
 // CustomText.js
 import React, { useEffect } from "react";
-import { Text } from "react-native";
 import {
-  useFonts,
   PlayfairDisplay_400Regular,
+  useFonts,
 } from "@expo-google-fonts/playfair-display";
-import * as SplashScreen from "expo-splash-screen";
+import { Text } from "react-native";
 
-SplashScreen.preventAutoHideAsync();
-
-export default function CustomText(props) {
-  let [fontsLoaded] = useFonts({
+export default function CustomText({ children, style, fontFamily, ...props }) {
+  const [fontsLoaded] = useFonts({
     PlayfairDisplay_400Regular,
+    // Poppins_600SemiBold,
   });
 
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  if (!fontsLoaded) {
+    return null; // Return loading spinner if fonts are not loaded
+  }
 
   return (
-    <Text
-      {...props}
-      style={[props.style, { fontFamily: "PlayfairDisplay_400Regular" }]}
-    />
+    <Text {...props} style={[style, { fontFamily }]}>
+      {children}
+    </Text>
   );
 }

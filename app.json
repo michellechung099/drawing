@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mchung099.drawing"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,10 +29,22 @@
         "expo-font",
         {
           "fonts": [
-            "node-modules/@expo-google-fonts/playfair-display/PlayfairDisplay_400Regular"
+            // "node-modules/@expo-google-fonts/playfair-display/PlayfairDisplay_400Regular",
+            // "node-modules/@expo-google-fonts/poppins/Poppins_600SemiBold"
           ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "2d716be9-99a7-4859-974d-a6685e9ac146"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2d716be9-99a7-4859-974d-a6685e9ac146"
+    }
   }
 }
