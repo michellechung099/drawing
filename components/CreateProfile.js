@@ -5,8 +5,8 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from "react-native";
-import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState } from "react";
 
@@ -27,15 +27,28 @@ export default function CreateProfile({ navigation }) {
           >
             Create your profile
           </Text>
-          <TextInput
-            placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={[styles.input, focus === "username" && styles.focusInput]}
-            onChangeText={(text) => setUsername(text)}
-            value={username}
-            placeholder="Username"
-            onFocus={() => setFocus("username")}
-            onBlur={() => setFocus(null)}
-          />
+          <View style={styles.profileContainer}>
+            <View style={styles.circle}>
+              <View style={styles.userCircle}>
+                <Image source={require("../assets/User.png")} />
+              </View>
+              <Image
+                source={require("../assets/Plus.png")}
+                style={styles.plusIcon}
+              />
+            </View>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholderTextColor="rgba(255, 255, 255, 0.6)"
+              style={[styles.input, focus === "username" && styles.focusInput]}
+              onChangeText={(text) => setUsername(text)}
+              value={username}
+              placeholder="Username"
+              onFocus={() => setFocus("username")}
+              onBlur={() => setFocus(null)}
+            />
+          </View>
         </View>
         <View style={styles.buttonContainer}>
           <Button label="Create account" gradient={true} />
@@ -52,19 +65,17 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    justifyContent: "space-around",
-    gap: "120%",
-    // padding: 25,
+    justifyContent: "space-between",
   },
   header: {
     flex: 1,
     justifyContent: "flex-start",
+    alignItems: "center",
     gap: 8,
-    paddingTop: 64,
+    paddingTop: 55,
     paddingBottom: 0,
     paddingRight: 16,
     paddingLeft: 16,
-    // 64px, 16px, 0px, 16px
   },
   title: {
     width: "100%",
@@ -76,6 +87,23 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     marginBottom: 15,
+  },
+  profileContainer: {
+    position: "relative",
+  },
+  circle: {
+    width: 160,
+    height: 160,
+    backgroundColor: "#2E2E2E",
+    borderRadius: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  plusIcon: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
   },
   input: {
     padding: "10 16 10 16",
@@ -89,6 +117,9 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     borderWidth: 1,
     borderColor: "transparent",
+  },
+  inputContainer: {
+    width: "100%",
   },
   focusInput: {
     borderColor: "#FFFFFF",
