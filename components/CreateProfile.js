@@ -51,7 +51,11 @@ export default function CreateProfile({ navigation }) {
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <Button label="Create account" gradient={true} />
+          <Button
+            label="Create account"
+            gradient={true}
+            onPress={() => navigation.navigate("Profile")}
+          />
         </View>
       </View>
     </KeyboardAvoidingView>
