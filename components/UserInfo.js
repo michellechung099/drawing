@@ -13,6 +13,7 @@ import { useState } from "react";
 export default function UserInfo({ navigation }) {
   const [fullName, setFullName] = useState("");
   const [birthDate, setBirthDate] = useState("");
+  const [focus, setFocus] = useState(null);
 
   return (
     <KeyboardAvoidingView
@@ -27,20 +28,27 @@ export default function UserInfo({ navigation }) {
           >
             Some basic information
           </Text>
+          <Text style={[styles.subTitle, { fontFamily: "Poppins_400" }]}>
+            This information below is for your security, it will not be public.
+          </Text>
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={styles.input}
+            style={[styles.input, focus === "fullName" && styles.focusInput]}
             onChangeText={(text) => setFullName(text)}
             value={fullName}
             placeholder="Full name"
+            onFocus={() => setFocus("fullName")}
+            onBlur={() => setFocus(null)}
             // keyboardType="email-address"
           />
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={styles.input}
+            style={[styles.input, focus === "birthDate" && styles.focusInput]}
             onChangeText={(text) => setBirthDate(text)}
             value={birthDate}
             placeholder="Birth date"
+            onFocus={() => setFocus("birthDate")}
+            onBlur={() => setFocus(null)}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -68,7 +76,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     gap: 8,
     paddingTop: 64,
     paddingBottom: 0,
@@ -85,7 +93,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontWeight: "700",
     textAlign: "center",
-    marginBottom: 15,
+    marginBottom: 5,
+  },
+  subTitle: {
+    fontSize: 16,
+    color: "rgba(255, 255, 255, 0.8)",
+    marginBottom: 12,
+    lineHeight: 19.2,
+    textAlign: "center",
+    paddingRight: 10,
+    paddingLeft: 10,
   },
   input: {
     padding: "10 16 10 16",
@@ -97,6 +114,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
+    borderWidth: 1,
+    borderColor: "transparent",
+  },
+  focusInput: {
+    borderColor: "#FFFFFF",
   },
   buttonContainer: {
     justifyContent: "flex-end",

@@ -5,6 +5,7 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  Keyboard,
 } from "react-native";
 import {
   PlayfairDisplay_700Bold,
@@ -16,6 +17,7 @@ import { useState } from "react";
 export default function Email({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [focus, setFocus] = useState(null);
 
   return (
     <KeyboardAvoidingView
@@ -32,20 +34,28 @@ export default function Email({ navigation }) {
           </Text>
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={styles.input}
+            style={[styles.input, focus === "email" && styles.focusInput]}
             onChangeText={(text) => setEmail(text)}
             value={email}
             placeholder="Email"
-            keyboardType="email-address"
+            // keyboardType="email-address"
+            keyboardType="default"
+            autoCapitalize="none"
+            onFocus={() => setFocus("email")}
+            onBlur={() => setFocus(null)}
           />
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={styles.input}
+            style={[styles.input, focus === "password" && styles.focusInput]}
             onChangeText={(text) => setPassword(text)}
             value={password}
+            autoCapitalize="none"
             placeholder="Password"
             secureTextEntry={true}
+            keyboardType="default"
             textContentType="newPassword"
+            onFocus={() => setFocus("password")}
+            onBlur={() => setFocus(null)}
           />
         </View>
         <View style={styles.buttonContainer}>
@@ -67,13 +77,13 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    justifyContent: "space-around",
-    gap: "120%",
+    // justifyContent: "space-between",
+    // gap: "120%",
     // padding: 25,
   },
   header: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "flex-start",
     gap: 8,
     paddingTop: 64,
     paddingBottom: 0,
@@ -87,10 +97,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 24,
     color: "#FFFFFF",
-    alignItems: "center",
+    // alignItems: "center",
     fontWeight: "700",
     textAlign: "center",
-    marginBottom: 15,
+    // marginBottom: 15,
   },
   input: {
     padding: "10 16 10 16",
@@ -102,13 +112,19 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
+    borderWidth: 1,
+    borderColor: "transparent",
+  },
+  focusInput: {
+    borderColor: "#FFFFFF",
   },
   buttonContainer: {
-    justifyContent: "flex-end",
-    paddingTop: 0,
-    paddingBottom: 16,
-    paddingRight: 16,
-    paddingLeft: 16,
+    // justifyContent: "flex-end",
     marginBottom: 16,
+    padding: 16,
+    left: 0,
+    right: 0,
+    position: "absolute",
+    bottom: 0,
   },
 });

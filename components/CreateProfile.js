@@ -12,6 +12,7 @@ import { useState } from "react";
 
 export default function CreateProfile({ navigation }) {
   const [username, setUsername] = useState("");
+  const [focus, setFocus] = useState(null);
 
   return (
     <KeyboardAvoidingView
@@ -28,15 +29,16 @@ export default function CreateProfile({ navigation }) {
           </Text>
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
-            style={styles.input}
+            style={[styles.input, focus === "username" && styles.focusInput]}
             onChangeText={(text) => setUsername(text)}
             value={username}
             placeholder="Username"
-            // keyboardType="email-address"
+            onFocus={() => setFocus("username")}
+            onBlur={() => setFocus(null)}
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button label="Next" gradient={true} />
+          <Button label="Create account" gradient={true} />
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     gap: 8,
     paddingTop: 64,
     paddingBottom: 0,
@@ -85,6 +87,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingRight: 16,
     paddingLeft: 16,
+    borderWidth: 1,
+    borderColor: "transparent",
+  },
+  focusInput: {
+    borderColor: "#FFFFFF",
   },
   buttonContainer: {
     justifyContent: "flex-end",
