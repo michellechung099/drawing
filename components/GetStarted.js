@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    top: "45%",
+    top: "43%",
+    width: "90%",
   },
   logo: {
     color: "#FFFFFF",

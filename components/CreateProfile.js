@@ -108,6 +108,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
+    objectFit: "cover",
+    width: 50,
+    height: 50,
   },
   input: {
     padding: "10 16 10 16",
