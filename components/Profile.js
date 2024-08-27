@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import PencilIcon from "./PencilIcon";
+import Tabs from "../navigator/TabNavigator";
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -45,11 +46,13 @@ export default function Profile() {
         </View>
         <View style={styles.accountControlContainer}>
           <View style={styles.accountControlRow}>
-            <Text
-              style={[styles.rowText, { fontFamily: "Poppins_400Regular" }]}
-            >
-              Log out
-            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("GetStarted")}>
+              <Text
+                style={[styles.rowText, { fontFamily: "Poppins_400Regular" }]}
+              >
+                Log out
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.accountControlRow}>
             <Text
@@ -67,15 +70,13 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
-    borderWidth: 1,
-    borderColor: "white",
+    backgroundColor: "#101010",
   },
   header: {
-    paddingTop: 64,
+    paddingTop: 55,
     alignItems: "center",
     flex: 1,
-    gap: 48,
+    gap: 42,
     width: "100%",
     paddingRight: 16,
     paddingLeft: 16,
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
   },
   username: {
     color: "#FFFFFF",
-    fontSize: 16,
-    lineHeight: 16,
+    fontSize: 20,
+    lineHeight: 20,
   },
   usernameContainer: {
     width: "100%",

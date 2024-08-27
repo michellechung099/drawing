@@ -54,7 +54,7 @@ export default function CreateProfile({ navigation }) {
           <Button
             label="Create account"
             gradient={true}
-            onPress={() => navigation.navigate("Profile")}
+            onPress={() => navigation.navigate("TabNavigator")}
           />
         </View>
       </View>
@@ -65,7 +65,7 @@ export default function CreateProfile({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#101010",
   },
   inner: {
     flex: 1,
