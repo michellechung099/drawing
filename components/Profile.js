@@ -1,8 +1,17 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import PencilIcon from "./PencilIcon";
 import Tabs from "../navigator/TabNavigator";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
 
 export default function Profile({ navigation }) {
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        navigation.replace("GetStarted");
+      })
+      .catch((error) => alert(error.message));
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -46,7 +55,7 @@ export default function Profile({ navigation }) {
         </View>
         <View style={styles.accountControlContainer}>
           <View style={styles.accountControlRow}>
-            <TouchableOpacity onPress={() => navigation.navigate("GetStarted")}>
+            <TouchableOpacity onPress={handleLogout}>
               <Text
                 style={[styles.rowText, { fontFamily: "Poppins_400Regular" }]}
               >

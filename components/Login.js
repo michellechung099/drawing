@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
   useEffect(() => {
     const userState = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("UploadPhoto");
+        navigation.replace("TabNavigator", { screen: "UploadPhoto" });
       }
     });
     return userState;
