@@ -12,12 +12,31 @@ import {
   useFonts,
 } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Email({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [focus, setFocus] = useState(null);
+
+  useEffect(() => {
+    const userState = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.replace("UserInfo");
+      }
+    });
+    return userState;
+  }, []);
+
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <KeyboardAvoidingView
@@ -59,11 +78,7 @@ export default function Email({ navigation }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button
-            label="Next"
-            gradient={true}
-            onPress={() => navigation.navigate("UserInfo")}
-          />
+          <Button label="Next" gradient={true} onPress={handleSignUp} />
         </View>
       </View>
     </KeyboardAvoidingView>
