@@ -53,6 +53,7 @@ export default function GetStarted({ navigation }) {
             label="Sign in"
             gradient={false}
             style={{ fontFamily: "Poppins_600SemiBold" }}
+            onPress={() => navigation.navigate("Login")}
           />
         </View>
       </View>

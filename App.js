@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import GetStarted from "./components/GetStarted";
+import Login from "./components/Login";
 import Email from "./components/Email";
 import UserInfo from "./components/UserInfo";
 import CreateProfile from "./components/CreateProfile";
@@ -17,6 +18,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="GetStarted">
         <Stack.Screen name="GetStarted" component={GetStarted} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Email" component={Email} />
         <Stack.Screen name="UserInfo" component={UserInfo} />
         <Stack.Screen name="CreateProfile" component={CreateProfile} />
