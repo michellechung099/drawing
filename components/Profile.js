@@ -7,10 +7,11 @@ import { useState, useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 
 export default function Profile({ navigation }) {
-  [username, setUsername] = useState("");
-  const currentUser = auth?.currentUser;
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
+    const currentUser = auth?.currentUser;
+
     const fetchUsername = async () => {
       if (currentUser) {
         const uid = currentUser.uid;
@@ -20,7 +21,7 @@ export default function Profile({ navigation }) {
 
           if (userDoc) {
             const userData = userDoc.data();
-            setUsername(userData.username);
+            setUsername(userData?.username);
           }
         } catch (error) {
           console.error(error);
@@ -29,11 +30,12 @@ export default function Profile({ navigation }) {
     };
 
     fetchUsername();
-  }, [currentUser]);
+  }, []);
 
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
+        setUsername("");
         navigation.replace("GetStarted");
       })
       .catch((error) => alert(error.message));
@@ -59,7 +61,7 @@ export default function Profile({ navigation }) {
             <Text
               style={[styles.username, { fontFamily: "Poppins_500Medium" }]}
             >
-              {username}
+              {username || "Guest"}
             </Text>
           </View>
         </View>
