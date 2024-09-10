@@ -24,7 +24,7 @@ export default function Email({ navigation }) {
   useEffect(() => {
     const userState = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("UserInfo");
+        navigation.replace("UserInfo", { uid: user.uid });
       }
     });
     return userState;

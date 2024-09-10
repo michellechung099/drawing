@@ -9,11 +9,42 @@ import {
 import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState } from "react";
+import { firestore } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { format } from "date-fns";
 
-export default function UserInfo({ navigation }) {
+export default function UserInfo({ route, navigation }) {
+  const { uid } = route.params;
   const [fullName, setFullName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [focus, setFocus] = useState(null);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const handleUpdateProfile = async () => {
+    try {
+      // setup firestore and update user's name and birthday based on userId
+      await setDoc(doc(db, "users"), {
+        fullName: fullName,
+        birthDate: birthDate,
+      });
+    } catch (error) {}
+  };
+
+  const showDatePicker = () => {
+    setFocus("birthDate");
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    const formattedDate = format(date, "MM/dd/yyyy");
+    setBirthDate(formattedDate);
+    hideDatePicker();
+  };
 
   return (
     <KeyboardAvoidingView
@@ -47,16 +78,18 @@ export default function UserInfo({ navigation }) {
             onChangeText={(text) => setBirthDate(text)}
             value={birthDate}
             placeholder="Birth date"
-            onFocus={() => setFocus("birthDate")}
+            onFocus={showDatePicker}
             onBlur={() => setFocus(null)}
+          />
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button
-            label="Next"
-            gradient={true}
-            onPress={() => navigation.navigate("CreateProfile")}
-          />
+          <Button label="Next" gradient={true} onPress={handleUpdateProfile} />
         </View>
       </View>
     </KeyboardAvoidingView>
