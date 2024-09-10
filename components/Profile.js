@@ -1,10 +1,36 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import PencilIcon from "./PencilIcon";
 import Tabs from "../navigator/TabNavigator";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { signOut } from "firebase/auth";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function Profile({ navigation }) {
+  [username, setUsername] = useState("");
+  const currentUser = auth.currentUser;
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (currentUser) {
+        const uid = currentUser.uid;
+        try {
+          const docRef = doc(db, "users", uid);
+          const userDoc = await getDoc(docRef);
+
+          if (userDoc) {
+            const userData = userDoc.data();
+            setUsername(userData.username);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchUsername();
+  }, [currentUser]);
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -12,6 +38,7 @@ export default function Profile({ navigation }) {
       })
       .catch((error) => alert(error.message));
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -32,7 +59,7 @@ export default function Profile({ navigation }) {
             <Text
               style={[styles.username, { fontFamily: "Poppins_500Medium" }]}
             >
-              justinbear.ie
+              {username}
             </Text>
           </View>
         </View>
