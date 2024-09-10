@@ -9,22 +9,35 @@ import {
 } from "react-native";
 import Button from "./Button";
 import { useState } from "react";
-import { db } from "../firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function CreateProfile({ route, navigation }) {
-  const { uid } = route.params;
   const [username, setUsername] = useState("");
   const [focus, setFocus] = useState(null);
 
   const handleCreateProfile = async () => {
-    try {
-      await updateDoc(doc(db, "users", uid), {
-        username: username,
-      });
-      navigation.replace("TabNavigator");
-    } catch (error) {
-      console.error(error);
+    if (username) {
+      try {
+        const userCredentials = await createUserWithEmailAndPassword(
+          auth,
+          route.params.email,
+          route.params.password
+        );
+        const uid = userCredentials.user.uid;
+
+        await setDoc(doc(db, "users", uid), {
+          fullName: route.params.fullName,
+          birthDate: route.params.birthDate,
+          username: username,
+        });
+        navigation.replace("TabNavigator");
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      alert("Please provide a username");
     }
   };
 

@@ -21,16 +21,29 @@ export default function UserInfo({ route, navigation }) {
   const [focus, setFocus] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-  const handleUpdateProfile = async () => {
-    try {
-      // setup firestore and update user's name and birthday based on userId
-      await setDoc(doc(db, "users", uid), {
+  // const handleUpdateProfile = async () => {
+  //   try {
+  //     // setup firestore and update user's name and birthday based on userId
+  //     await setDoc(doc(db, "users", uid), {
+  //       fullName: fullName,
+  //       birthDate: birthDate,
+  //     });
+  //     navigation.replace("CreateProfile", { uid: uid });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleNext = () => {
+    if (fullName && birthDate) {
+      navigation.navigate("CreateProfile", {
+        email: route.params.email,
+        password: route.params.password,
         fullName: fullName,
         birthDate: birthDate,
       });
-      navigation.replace("CreateProfile", { uid: uid });
-    } catch (error) {
-      console.error(error);
+    } else {
+      alert("Please fill out all the fields");
     }
   };
 
@@ -91,7 +104,7 @@ export default function UserInfo({ route, navigation }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button label="Next" gradient={true} onPress={handleUpdateProfile} />
+          <Button label="Next" gradient={true} onPress={handleNext} />
         </View>
       </View>
     </KeyboardAvoidingView>

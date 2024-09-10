@@ -8,7 +8,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 export default function Profile({ navigation }) {
   [username, setUsername] = useState("");
-  const currentUser = auth.currentUser;
+  const currentUser = auth?.currentUser;
 
   useEffect(() => {
     const fetchUsername = async () => {

@@ -5,37 +5,39 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
 } from "react-native";
-import {
-  PlayfairDisplay_700Bold,
-  useFonts,
-} from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState, useEffect } from "react";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
 
 export default function Email({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [focus, setFocus] = useState(null);
 
-  useEffect(() => {
-    const userState = auth.onAuthStateChanged((user) => {
-      if (user) {
-        navigation.replace("UserInfo", { uid: user.uid });
-      }
-    });
-    return userState;
-  }, []);
+  // useEffect(() => {
+  //   const userState = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigation.replace("UserInfo", { uid: user.uid });
+  //     }
+  //   });
+  //   return userState;
+  // }, []);
 
-  const handleSignUp = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-      })
-      .catch((error) => alert(error.message));
+  // const handleSignUp = () => {
+  //   createUserWithEmailAndPassword(auth, email, password)
+  //     .then((userCredentials) => {
+  //       const user = userCredentials.user;
+  //     })
+  //     .catch((error) => alert(error.message));
+  // };
+
+  const handleNext = () => {
+    navigation.navigate("UserInfo", {
+      email: email,
+      password: password,
+    });
   };
 
   return (
@@ -78,7 +80,7 @@ export default function Email({ navigation }) {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button label="Next" gradient={true} onPress={handleSignUp} />
+          <Button label="Next" gradient={true} onPress={handleNext} />
         </View>
       </View>
     </KeyboardAvoidingView>
