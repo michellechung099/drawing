@@ -9,7 +9,7 @@ import {
 import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState } from "react";
-import { firestore } from "../firebase";
+import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
@@ -24,11 +24,14 @@ export default function UserInfo({ route, navigation }) {
   const handleUpdateProfile = async () => {
     try {
       // setup firestore and update user's name and birthday based on userId
-      await setDoc(doc(db, "users"), {
+      await setDoc(doc(db, "users", uid), {
         fullName: fullName,
         birthDate: birthDate,
       });
-    } catch (error) {}
+      navigation.replace("CreateProfile", { uid: uid });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const showDatePicker = () => {
@@ -70,7 +73,6 @@ export default function UserInfo({ route, navigation }) {
             placeholder="Full name"
             onFocus={() => setFocus("fullName")}
             onBlur={() => setFocus(null)}
-            // keyboardType="email-address"
           />
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"

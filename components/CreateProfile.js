@@ -9,10 +9,24 @@ import {
 } from "react-native";
 import Button from "./Button";
 import { useState } from "react";
+import { db } from "../firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
-export default function CreateProfile({ navigation }) {
+export default function CreateProfile({ route, navigation }) {
+  const { uid } = route.params;
   const [username, setUsername] = useState("");
   const [focus, setFocus] = useState(null);
+
+  const handleCreateProfile = async () => {
+    try {
+      await updateDoc(doc(db, "users", uid), {
+        username: username,
+      });
+      navigation.replace("TabNavigator");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -54,7 +68,7 @@ export default function CreateProfile({ navigation }) {
           <Button
             label="Create account"
             gradient={true}
-            onPress={() => navigation.navigate("TabNavigator")}
+            onPress={handleCreateProfile}
           />
         </View>
       </View>
