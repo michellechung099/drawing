@@ -7,37 +7,26 @@ import {
   Platform,
 } from "react-native";
 import Button from "./Button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
 
 export default function Email({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [focus, setFocus] = useState(null);
 
-  // useEffect(() => {
-  //   const userState = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigation.replace("UserInfo", { uid: user.uid });
-  //     }
-  //   });
-  //   return userState;
-  // }, []);
-
-  // const handleSignUp = () => {
-  //   createUserWithEmailAndPassword(auth, email, password)
-  //     .then((userCredentials) => {
-  //       const user = userCredentials.user;
-  //     })
-  //     .catch((error) => alert(error.message));
-  // };
-
   const handleNext = () => {
-    navigation.navigate("UserInfo", {
-      email: email,
-      password: password,
-    });
+    // add email validation logic (having "@" and in correct format)
+    // also check if email is already being used or not (validation) not when account is being created
+    // password validation in backend
+    if (email && password) {
+      navigation.navigate("UserInfo", {
+        email: email,
+        password: password,
+      });
+    } else {
+      alert("Please fill out all the fields");
+    }
   };
 
   return (
@@ -59,7 +48,6 @@ export default function Email({ navigation }) {
             onChangeText={(text) => setEmail(text)}
             value={email}
             placeholder="Email"
-            // keyboardType="email-address"
             keyboardType="default"
             autoCapitalize="none"
             onFocus={() => setFocus("email")}
@@ -94,19 +82,14 @@ const styles = StyleSheet.create({
   },
   inner: {
     flex: 1,
-    // justifyContent: "space-between",
-    // gap: "120%",
-    // padding: 25,
   },
   header: {
     flex: 1,
-    // justifyContent: "flex-start",
     gap: 8,
     paddingTop: 64,
     paddingBottom: 0,
     paddingRight: 16,
     paddingLeft: 16,
-    // 64px, 16px, 0px, 16px
   },
   title: {
     width: "100%",
@@ -114,10 +97,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 24,
     color: "#FFFFFF",
-    // alignItems: "center",
     fontWeight: "700",
     textAlign: "center",
-    // marginBottom: 15,
   },
   input: {
     padding: "10 16 10 16",
@@ -136,7 +117,6 @@ const styles = StyleSheet.create({
     borderColor: "#FFFFFF",
   },
   buttonContainer: {
-    // justifyContent: "flex-end",
     marginBottom: 16,
     padding: 16,
     left: 0,

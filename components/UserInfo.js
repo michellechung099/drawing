@@ -6,33 +6,16 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { PlayfairDisplay_700Bold } from "@expo-google-fonts/playfair-display";
 import Button from "./Button";
 import { useState } from "react";
-import { db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
 
 export default function UserInfo({ route, navigation }) {
-  const { uid } = route.params;
   const [fullName, setFullName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [focus, setFocus] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
-  // const handleUpdateProfile = async () => {
-  //   try {
-  //     // setup firestore and update user's name and birthday based on userId
-  //     await setDoc(doc(db, "users", uid), {
-  //       fullName: fullName,
-  //       birthDate: birthDate,
-  //     });
-  //     navigation.replace("CreateProfile", { uid: uid });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const handleNext = () => {
     if (fullName && birthDate) {
@@ -120,7 +103,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     gap: "120%",
-    // padding: 25,
   },
   header: {
     flex: 1,
@@ -130,7 +112,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingRight: 16,
     paddingLeft: 16,
-    // 64px, 16px, 0px, 16px
   },
   title: {
     width: "100%",

@@ -6,9 +6,11 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import Button from "./Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as ImagePicker from "expo-image-picker";
 import { auth, db } from "../firebase";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -16,6 +18,21 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 export default function CreateProfile({ route, navigation }) {
   const [username, setUsername] = useState("");
   const [focus, setFocus] = useState(null);
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+  const [image, setImage] = useState(null);
+  // save this image under this user in Firebae
+
+  useEffect(() => {
+    (async () => {
+      const galleryStatus =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      setHasGalleryPermission(galleryStatus.status == "granted");
+    })();
+  }, []);
+
+  if (hasGalleryPermission === false) {
+    Alert.alert("No permission to photo gallery");
+  }
 
   const handleCreateProfile = async () => {
     if (username) {
@@ -41,6 +58,19 @@ export default function CreateProfile({ route, navigation }) {
     }
   };
 
+  const handlePress = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log("result", result);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -57,12 +87,16 @@ export default function CreateProfile({ route, navigation }) {
           <View style={styles.profileContainer}>
             <View style={styles.circle}>
               <View style={styles.userCircle}>
-                <Image source={require("../assets/User.png")} />
+                <Image
+                  source={
+                    image ? { uri: image } : require("../assets/User.png")
+                  }
+                  style={image ? styles.profileImage : styles.profileIcon}
+                />
               </View>
-              <Image
-                source={require("../assets/Plus.png")}
-                style={styles.plusIcon}
-              />
+              <TouchableOpacity onPress={handlePress} style={styles.plusIcon}>
+                <Image source={require("../assets/Plus.png")} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.inputContainer}>
@@ -165,5 +199,27 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     paddingLeft: 16,
     marginBottom: 16,
+  },
+  userCircle: {
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    resizeMode: "cover",
+  },
+  // bigger icon flashes when profileImage is set. Fix
+  profileIcon: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    top: "23%",
+    left: "25%",
+    resizeMode: "cover",
+  },
+  profileImage: {
+    width: 160,
+    height: 160,
+    borderRadius: 80,
   },
 });
